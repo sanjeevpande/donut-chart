@@ -45,30 +45,30 @@
 			var g = stocks.selectAll(".arc")
 		    	.data(pie(self.data[0].categories))
 		    	.enter().append("g")
-		    	.attr("class", function(d, i) {
-		    		return d.data.fundType;
-		    	})
-		    	.append("path")
+		    	.attr("class", "stock");
+
+		    g.append("path")
 				.attr("d", arc)
-				.style("fill", function(d, i) { return greenHues(i); })
-				.append("text")
+				.style("fill", function(d, i) { return greenHues(i); });
+
+			g.append("text")
 				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				.attr("dy", ".35em")
-				.text(function(d) { return d.data.fundType; });
+				.text(function(d) { return d.data.value; });
 
 			var g1 = debts.selectAll(".arc1")
 		    	.data(pie(self.data[1].categories))
 		    	.enter().append("g")
-		    	.attr("class", function(d, i) {
-		    		return d.data.fundType;
-		    	})
-		    	.append("path")
+		    	.attr("class", "debt");
+
+		    g1.append("path")
 				.attr("d", arc)
-				.style("fill", function(d, i) { return blueHues(i); })
-				.append("text")
+				.style("fill", function(d, i) { return blueHues(i); });
+
+			g1.append("text")
 				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				.attr("dy", ".35em")
-				.text(function(d) { return d.data.fundType; });
+				.text(function(d) { return d.data.value; });
 		}
 	}
 
