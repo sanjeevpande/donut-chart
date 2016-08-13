@@ -3,23 +3,23 @@
 		"fundType": "stocks",
 		"value": 40,
 		"categories": [
-			{"categoryName": "categoryA", "value": 20},
-			{"categoryName": "categoryB", "value": 30},
-			{"categoryName": "categoryC", "value": 10},
-			{"categoryName": "categoryD", "value": 10},
-			{"categoryName": "categoryE", "value": 15},
-			{"categoryName": "categoryF", "value": 15}
+			{"categoryName": "categoryA", "value": 20, "fundType": "stocks"},
+			{"categoryName": "categoryB", "value": 30, "fundType": "stocks"},
+			{"categoryName": "categoryC", "value": 10, "fundType": "stocks"},
+			{"categoryName": "categoryD", "value": 10, "fundType": "stocks"},
+			{"categoryName": "categoryE", "value": 15, "fundType": "stocks"},
+			{"categoryName": "categoryF", "value": 15, "fundType": "stocks"}
 		]
 	},
 	{
 		"fundType": "debts",
 		"value": 60,
 		"categories": [
-			{"categoryName": "categoryA", "value": 10},
-			{"categoryName": "categoryB", "value": 40},
-			{"categoryName": "categoryC", "value": 15},
-			{"categoryName": "categoryD", "value": 25},
-			{"categoryName": "categoryE", "value": 10}
+			{"categoryName": "categoryA", "value": 10, "fundType": "debts"},
+			{"categoryName": "categoryB", "value": 40, "fundType": "debts"},
+			{"categoryName": "categoryC", "value": 15, "fundType": "debts"},
+			{"categoryName": "categoryD", "value": 25, "fundType": "debts"},
+			{"categoryName": "categoryE", "value": 10, "fundType": "debts"}
 		]
 	}
 ]

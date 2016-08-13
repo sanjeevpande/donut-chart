@@ -36,36 +36,40 @@
 			    .append('g')
 			    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-			var stocks = svg.append("g")
-			  	.attr('class', 'stocks');
-
-			var debts = svg.append("g")
-			  	.attr('class', 'debts');
-
-			var g = stocks.selectAll(".arc")
-		    	.data(pie(self.data[0].categories))
+			var g = svg.selectAll(".arc")
+		    	.data(pie(self.data))
 		    	.enter().append("g")
-		    	.attr("class", "stock");
+		    	.attr("class", function(d) {
+		    		return d.data.fundType;
+		    	});
 
-		    g.append("path")
-				.attr("d", arc)
-				.style("fill", function(d, i) { return greenHues(i); });
+		    g.append('path')
+		    	.attr("d", arc)
+		    	.style("fill", function(d, i) { return greenHues(i); });
 
-			g.append("text")
+		    g.append("text")
 				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				.attr("dy", ".35em")
 				.text(function(d) { return d.data.value; });
 
-			var g1 = debts.selectAll(".arc1")
-		    	.data(pie(self.data[1].categories))
+			var g1 = g.selectAll(".arc")
+		    	.data(function(d, i) {
+		    		return pie(self.data[i].categories);
+		    	})
 		    	.enter().append("g")
-		    	.attr("class", "debt");
-
+		    	.attr("class", "categories");
+		    
 		    g1.append("path")
 				.attr("d", arc)
-				.style("fill", function(d, i) { return blueHues(i); });
+				.style("fill", function(d, i) {
+					if(d.data.fundType === 'stocks') {
+						return greenHues(i);
+					} else if(d.data.fundType === 'debts') {
+						return blueHues(i);
+					}
+				});
 
-			g1.append("text")
+		   	g1.append("text")
 				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				.attr("dy", ".35em")
 				.text(function(d) { return d.data.value; });
