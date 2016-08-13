@@ -18,8 +18,10 @@
 			    radius = Math.min(width, height) / 2,
 	        	color = d3.scale.ordinal()
     				.range(["#27ae60", "#2980b9"]),
-    			color1 = d3.scale.ordinal()
-    				.range(["#9fa8da", "#7986cb", "#5c6bc0", "#3f51b5", "#303f9f", "#1a237e"]);
+    			blueHues = d3.scale.ordinal()
+    				.range(["#9fa8da", "#7986cb", "#5c6bc0", "#3f51b5", "#303f9f"]),
+    			greenHues = d3.scale.ordinal()
+    				.range(["#81c784", "#4caf50", "#388e3c", "#2e7d32", "#1b5e20", "#c8e6c9"]);
 
     		var arc = d3.svg.arc()
 			    .outerRadius(radius - 10)
@@ -48,7 +50,7 @@
 		    	})
 		    	.append("path")
 				.attr("d", arc)
-				.style("fill", function(d, i) { return color(i); })
+				.style("fill", function(d, i) { return greenHues(i); })
 				.append("text")
 				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				.attr("dy", ".35em")
@@ -62,7 +64,7 @@
 		    	})
 		    	.append("path")
 				.attr("d", arc)
-				.style("fill", function(d, i) { return color(i); })
+				.style("fill", function(d, i) { return blueHues(i); })
 				.append("text")
 				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				.attr("dy", ".35em")
