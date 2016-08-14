@@ -10,19 +10,27 @@
 
 			var self = this;
 			
-			var width = 400,
-			    height = 400,
+			var width = 500,
+			    height = 500,
 			    radius = Math.min(width, height) / 2,
 	        	color = d3.scale.ordinal()
-    				.range(["#27ae60", "#2980b9"]),
+    				.range(["#A6D5A3", "#C4E3F4"]),
     			blueHues = d3.scale.ordinal()
-    				.range(["#9fa8da", "#7986cb", "#5c6bc0", "#3f51b5", "#303f9f"]),
+    				.range(["#2F567D", "#3885D2", "#489FF6", "#89C1F8", "#B6D5F5"]),
     			greenHues = d3.scale.ordinal()
-    				.range(["#81c784", "#4caf50", "#388e3c", "#2e7d32", "#1b5e20", "#c8e6c9"]);
+    				.range(["#D1E7AD", "#A6D57E", "#8BBD34", "#709C49", "#32783A", "#385A3C"]);
 
     		var arc = d3.svg.arc()
+			    .outerRadius(radius - 170)
+			    .innerRadius(radius - 100);
+
+			var hiddenArcExpand = d3.svg.arc()
+				.outerRadius(radius - 80)
+				.innerRadius(radius - 100);
+
+			var arcMouseOver = d3.svg.arc()
 			    .outerRadius(radius - 150)
-			    .innerRadius(radius - 110);
+			    .innerRadius(radius - 90);
 
 			var pie = d3.layout.pie()
 			    .value(function(d) { return d.value; });
@@ -48,7 +56,7 @@
 
 		    g.append('path')
 		    	.attr("d", arc)
-		    	.style("fill", function(d, i) { return greenHues(i); });
+		    	.style("fill", function(d, i) { return color(i); });
 
 		    g.append("text")
 				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
@@ -64,14 +72,33 @@
 			
 				var innerGroup = svg.append('g')
 					.attr('class', function() { return 'innerArc' + i; })
-					.on('mouseover', function(){
-
-					})
 					.selectAll(".innerArc")
 					.data(pie(innerData))
 					.enter()
 					.append('path')
 					.attr("d", arc)
+					.on("mouseover", function(d) {
+				   		d3.select('.'+d.data.fundType + ' ' +'path')
+				   			.transition()
+				   			.duration(500)
+				   			.attr("d", hiddenArcExpand);
+
+				    	d3.select(this)
+				    		.transition()
+				        	.duration(800)
+				        	.attr("d", arcMouseOver);
+				    })
+				    .on("mouseout", function(d) {
+				   		d3.select('.'+d.data.fundType + ' ' +'path')
+				   			.transition()
+				   			.duration(500)
+				   			.attr("d", arc);
+
+				    	d3.select(this)
+				    		.transition()
+				        	.duration(800)
+				        	.attr("d", arc);
+				    })
 					.style("fill", function(d, i) { 
 						if(d.data.fundType === "stocks") {
 							return greenHues(i);
