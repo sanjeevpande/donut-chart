@@ -9,12 +9,9 @@
 		this.init = function() {
 
 			var self = this;
-			this.graph = d3.select(document.getElementById('chart'));
-			this.width = 800;
-			this.height = 800;
 			
-			var width = 960,
-			    height = 500,
+			var width = 400,
+			    height = 400,
 			    radius = Math.min(width, height) / 2,
 	        	color = d3.scale.ordinal()
     				.range(["#27ae60", "#2980b9"]),
@@ -24,8 +21,8 @@
     				.range(["#81c784", "#4caf50", "#388e3c", "#2e7d32", "#1b5e20", "#c8e6c9"]);
 
     		var arc = d3.svg.arc()
-			    .outerRadius(radius - 10)
-			    .innerRadius(radius - 100);
+			    .outerRadius(radius - 150)
+			    .innerRadius(radius - 110);
 
 			var pie = d3.layout.pie()
 			    .value(function(d) { return d.value; });
@@ -41,6 +38,12 @@
 		    	.enter().append("g")
 		    	.attr("class", function(d) {
 		    		return d.data.fundType;
+		    	})
+		    	.attr('startAngle', function(d) {
+		    		return d.startAngle;
+		    	})
+		    	.attr('endAngle', function(d) {
+		    		return d.endAngle;
 		    	});
 
 		    g.append('path')
@@ -52,27 +55,31 @@
 				.attr("dy", ".35em")
 				.text(function(d) { return d.data.value; });
 
-			var g1 = g.selectAll(".arc")
-		    	.data(function(d, i) {
-		    		return pie(self.data[i].categories);
-		    	})
-		    	.enter().append("g")
-		    	.attr("class", "categories");
-		    
-		    g1.append("path")
-				.attr("d", arc)
-				.style("fill", function(d, i) {
-					if(d.data.fundType === 'stocks') {
-						return greenHues(i);
-					} else if(d.data.fundType === 'debts') {
-						return blueHues(i);
-					}
-				});
+			self.data.forEach(function(d, i) {
+				
+				var innerData = d.categories;
+				
+				pie.startAngle(+d3.select('.' + d.fundType).attr("startAngle"));
+				pie.endAngle(+d3.select('.' + d.fundType).attr("endAngle"));
+			
+				var innerGroup = svg.append('g')
+					.attr('class', function() { return 'innerArc' + i; })
+					.on('mouseover', function(){
 
-		   	g1.append("text")
-				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-				.attr("dy", ".35em")
-				.text(function(d) { return d.data.value; });
+					})
+					.selectAll(".innerArc")
+					.data(pie(innerData))
+					.enter()
+					.append('path')
+					.attr("d", arc)
+					.style("fill", function(d, i) { 
+						if(d.data.fundType === "stocks") {
+							return greenHues(i);
+						} else if(d.data.fundType === "debts") {
+							return blueHues(i);
+						}
+					});
+			});
 		}
 	}
 
