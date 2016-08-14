@@ -41,6 +41,20 @@
 			    .append('g')
 			    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
+			var gForText = svg.append('g').attr('class', 'gForText');
+			var txtGrp1 = gForText.append('g').attr('class','textForstocks');
+			var txtGrp2 = gForText.append('g');
+			var txtGrp3 = gForText.append('g').attr('class', 'textFordebts');
+			txtGrp1.append('text').attr('x', -50).attr('y',0).text('');
+			txtGrp1.append('text').attr('x', -50).attr('y',10).text('stocks');
+
+			txtGrp2.append('text').text('/');
+		
+			txtGrp3.append('text').attr('x', 50).attr('y',0).text('');
+			txtGrp3.append('text').attr('x', 50).attr('y',10).text('debts');
+
+			//.append('text').attr('x',0).attr('y',0).text('pie chart').attr('text-anchor','middle');
+
 			var g = svg.selectAll(".arc")
 		    	.data(pie(self.data))
 		    	.enter().append("g")
@@ -66,7 +80,7 @@
 			self.data.forEach(function(d, i) {
 				
 				var innerData = d.categories;
-				
+				d3.select('.textFor'+d.fundType + ' text').text(d.value);				
 				pie.startAngle(+d3.select('.' + d.fundType).attr("startAngle"));
 				pie.endAngle(+d3.select('.' + d.fundType).attr("endAngle"));
 			
@@ -87,6 +101,9 @@
 				    		.transition()
 				        	.duration(800)
 				        	.attr("d", arcMouseOver);
+
+				       	d3.selectAll('.textFor'+d.data.fundType + ' ' +'text').attr('fill', function(){
+				       	 if(d.data.fundType === "stocks") {return color(0); } else { return color(1); }});
 				    })
 				    .on("mouseout", function(d) {
 				   		d3.select('.'+d.data.fundType + ' ' +'path')
@@ -98,6 +115,8 @@
 				    		.transition()
 				        	.duration(800)
 				        	.attr("d", arc);
+
+				        		d3.selectAll('.gForText' + ' ' +'text').attr('fill', 'black');
 				    })
 					.style("fill", function(d, i) { 
 						if(d.data.fundType === "stocks") {
