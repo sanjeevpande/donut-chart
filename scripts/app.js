@@ -29,7 +29,7 @@
 				.innerRadius(radius - 100);
 
 			var arcMouseOver = d3.svg.arc()
-			    .outerRadius(radius - 150)
+			    .outerRadius(radius - 170)
 			    .innerRadius(radius - 90);
 
 			var pie = d3.layout.pie()
